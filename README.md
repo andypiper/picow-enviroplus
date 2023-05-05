@@ -5,7 +5,7 @@ This is the [MicroPython](https://micropython.org) code that I'm running on the 
 
 My Enviro+ sits on top of a Pico W. I wanted it to show the text display of the current environmental parameters, and also to publish the information to my MQTT broker at the same time. The [sample code from Pimoroni](https://github.com/pimoroni/pimoroni-pico/tree/main/micropython/examples/pico_enviro) is either/or, so, this repository contains an unholy mashup of a couple of chunks of their code, until I get around to doing something better.
 
-Rather than using the full Enviro self-provisioning code for the standalone products, this is using a lightly-modified version of the `network_manager` code from Pimoroni as well.
+Rather than using the full Enviro self-provisioning code from the standalone products, this is using a lightly-modified version of the `network_manager` code from Pimoroni as well.
 
 In addition, I thought I'd noodle around with using the vector-ish Hershey fonts instead of using the bitmap ones, which gave me a chance to tinker with [PicoGraphics](https://github.com/pimoroni/pimoroni-pico/tree/main/micropython/modules/picographics). I'm happy with the result!
 
