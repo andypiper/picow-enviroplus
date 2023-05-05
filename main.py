@@ -1,3 +1,8 @@
+# TODO: MQTT publish should be a JSON packet
+# TODO: don't keep doing MQTT connect
+# TODO: PMS setup
+# TODO: support other charts on button press
+
 import time
 from machine import Pin, ADC, UART
 from picographics import PicoGraphics, DISPLAY_ENVIRO_PLUS
@@ -69,7 +74,9 @@ def adjust_to_sea_pressure(pressure_hpa, temperature, altitude):
     """
 
     # Adjusted-to-the-sea barometric pressure
-    adjusted_hpa = pressure_hpa + ((pressure_hpa * 9.80665 * altitude) / (287 * (273 + temperature + (altitude / 400))))
+    adjusted_hpa = pressure_hpa + \
+        ((pressure_hpa * 9.80665 * altitude) /
+         (287 * (273 + temperature + (altitude / 400))))
     return adjusted_hpa
 
 
@@ -116,12 +123,16 @@ def draw_hist(results_array):
     result_index = 0
     for result in results_array:
         display.set_pen(YELLOW)
-        display.rectangle(2 * result_index, 240 - result.pm_ug_per_m3(10), 2, 240)
+        display.rectangle(2 * result_index, 240 -
+                          result.pm_ug_per_m3(10), 2, 240)
         display.set_pen(MAGENTA)
-        display.rectangle(2 * result_index, 240 - result.pm_ug_per_m3(2.5), 2, 240)
+        display.rectangle(2 * result_index, 240 -
+                          result.pm_ug_per_m3(2.5), 2, 240)
         display.set_pen(BLUE)
-        display.rectangle(2 * result_index, 240 - result.pm_ug_per_m3(1.0), 2, 240)
+        display.rectangle(2 * result_index, 240 -
+                          result.pm_ug_per_m3(1.0), 2, 240)
         result_index += 1
+
 
 def status_handler(mode, status, ip):
     display.set_pen(BLACK)
@@ -141,9 +152,8 @@ def status_handler(mode, status, ip):
 
 
 # set up wifi
-network_manager = NetworkManager(config.wifi_country, status_handler=status_handler)
-
-
+network_manager = NetworkManager(
+    config.wifi_country, status_handler=status_handler)
 
 # set up the display
 display = PicoGraphics(display=DISPLAY_ENVIRO_PLUS)
@@ -181,7 +191,8 @@ mic = ADC(Pin(26))
 # )
 
 # set up MQTT
-mqtt_client = umqtt.simple.MQTTClient(client_id=CLIENT_ID, server=SERVER_ADDRESS, user=MQTT_USERNAME, password=MQTT_PASSWORD, keepalive=30)
+mqtt_client = umqtt.simple.MQTTClient(
+    client_id=CLIENT_ID, server=SERVER_ADDRESS, user=MQTT_USERNAME, password=MQTT_PASSWORD, keepalive=30)
 
 # some constants we'll use for drawing
 WHITE = display.create_pen(255, 255, 255)
@@ -216,13 +227,14 @@ max_gas = 0.0
 # results = []
 
 # connect to wifi
-uasyncio.get_event_loop().run_until_complete(network_manager.client(config.wifi_ssid, config.wifi_password))
+uasyncio.get_event_loop().run_until_complete(
+    network_manager.client(config.wifi_ssid, config.wifi_password))
 
 # setup
 led.set_rgb(255, 0, 0)
 display.set_backlight(BRIGHTNESS)
 display.set_pen(RED)
-#display.text("waiting for sensors", 0, 0, WIDTH, scale=3)
+# display.text("waiting for sensors", 0, 0, WIDTH, scale=3)
 
 display.update()
 
@@ -276,21 +288,22 @@ while True:
         pressure_hpa = pressure / 100
 
         # correct pressure
-        pressure_hpa = adjust_to_sea_pressure(pressure_hpa, corrected_temperature, altitude)
+        pressure_hpa = adjust_to_sea_pressure(
+            pressure_hpa, corrected_temperature, altitude)
 
         # read LTR559
         ltr_reading = ltr.get_reading()
         lux = ltr_reading[BreakoutLTR559.LUX]
         prox = ltr_reading[BreakoutLTR559.PROXIMITY]
-        
+
         # read mic
         mic_reading = mic.read_u16()
 
         # read particulate sensor and put the results into the array
         # comment out if no PM sensor
-        #data = pms5003.read()
-        #results.append(data)
-        #if (len(results) > 120):  # Scroll the result list by removing the first value
+        # data = pms5003.read()
+        # results.append(data)
+        # if (len(results) > 120):  # Scroll the result list by removing the first value
         #     results.pop(0)
 
         if heater == "Stable" and ltr_reading is not None:
@@ -300,12 +313,16 @@ while True:
                 # then publish to MQTT
                 try:
                     mqtt_client.connect()
-                    mqtt_client.publish(topic="enviro/temperature", msg=str(corrected_temperature))
-                    mqtt_client.publish(topic="enviro/humidity", msg=str(corrected_humidity))
-                    mqtt_client.publish(topic="enviro/pressure", msg=str(pressure / 100))
+                    mqtt_client.publish(
+                        topic="enviro/temperature", msg=str(corrected_temperature))
+                    mqtt_client.publish(
+                        topic="enviro/humidity", msg=str(corrected_humidity))
+                    mqtt_client.publish(
+                        topic="enviro/pressure", msg=str(pressure / 100))
                     mqtt_client.publish(topic="enviro/gas", msg=str(gas))
                     mqtt_client.publish(topic="enviro/lux", msg=str(lux))
-                    mqtt_client.publish(topic="enviro/mic", msg=str(mic_reading))
+                    mqtt_client.publish(topic="enviro/mic",
+                                        msg=str(mic_reading))
     #                 mqtt_client.publish(topic="EnviroParticulates1_0", msg=str(particulate_reading.pm_ug_per_m3(1.0)))
     #                 mqtt_client.publish(topic="EnviroParticulates2_5", msg=str(particulate_reading.pm_ug_per_m3(2.5)))
     #                 mqtt_client.publish(topic="EnviroParticulates10", msg=str(particulate_reading.pm_ug_per_m3(10)))
@@ -326,7 +343,7 @@ while True:
             display.clear()
 
             # draw particulate graph on screen, comment out if no PM sensor
-            #draw_hist(results)
+            # draw_hist(results)
 
             # draw the top box
             display.set_pen(GREY)
@@ -338,23 +355,29 @@ while True:
                 display.set_pen(RED)
             if corrected_temperature < 10:
                 display.set_pen(CYAN)
-            display.text(f"{corrected_temperature:.1f}C", 5, 30, WIDTH, scale=1.2)
+            display.text(f"{corrected_temperature:.1f}C",
+                         5, 30, WIDTH, scale=1.2)
 
             # draw temp max and min
             display.set_pen(CYAN)
-            display.text(f"min {min_temperature:.1f}", 130, 15, WIDTH, scale=0.6)
+            display.text(f"min {min_temperature:.1f}",
+                         130, 15, WIDTH, scale=0.6)
             display.set_pen(RED)
-            display.text(f"max {max_temperature:.1f}", 130, 40, WIDTH, scale=0.6)
+            display.text(f"max {max_temperature:.1f}",
+                         130, 40, WIDTH, scale=0.6)
 
             # draw the first column of text
             display.set_pen(WHITE)
-            display.text(f"rh {corrected_humidity:.0f}%", 5, 75, WIDTH, scale=0.8)
+            display.text(f"rh {corrected_humidity:.0f}%",
+                         5, 75, WIDTH, scale=0.8)
             display.text(f"{pressure_hpa:.0f}hPa", 5, 125, WIDTH, scale=0.8)
             display.text(f"{lux}", 5, 175, WIDTH, scale=0.8)
 
             # draw the second column of text
-            display.text(f"{describe_humidity(corrected_humidity)}", 130, 75, WIDTH, scale=0.8)
-            display.text(f"{describe_pressure(pressure_hpa)}", 130, 125, WIDTH, scale=0.8)
+            display.text(f"{describe_humidity(corrected_humidity)}",
+                         130, 75, WIDTH, scale=0.8)
+            display.text(f"{describe_pressure(pressure_hpa)}",
+                         130, 125, WIDTH, scale=0.8)
             display.text(f"{describe_light(lux)}", 130, 175, WIDTH, scale=0.8)
 
             # draw bar for gas
@@ -366,7 +389,8 @@ while True:
                 else:
                     display.set_pen(GREEN)
 
-                display.rectangle(236, HEIGHT - round((gas - min_gas) / (max_gas - min_gas) * HEIGHT), 4, round((gas - min_gas) / (max_gas - min_gas) * HEIGHT))
+                display.rectangle(236, HEIGHT - round((gas - min_gas) / (max_gas - min_gas)
+                                  * HEIGHT), 4, round((gas - min_gas) / (max_gas - min_gas) * HEIGHT))
                 display.text("gas", 175, 225, WIDTH, scale=0.8)
 
             display.update()
