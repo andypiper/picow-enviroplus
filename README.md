@@ -16,3 +16,7 @@ In addition, I thought I'd noodle around with using the vector-ish Hershey fonts
 Tested / running on MicroPython 1.20[.1] 👍🏻️
 
 Now if you'll excuse me, I'm off to design 3D printed cases for Pimoroni products...
+
+## License
+
+[MIT](./LICENSE) (which matches the original Pimoroni code this is derived from)
