@@ -1,0 +1,49 @@
+# enviro config file
+
+# you may edit this file by hand but if you enter provisioning mode
+# then the file will be automatically overwritten with new details
+
+provisioned = True
+
+# enter a nickname for this board
+nickname = 'pico-envplus'
+
+# network access details
+wifi_ssid = 'wifi-net'
+wifi_password = 'wifi-pass'
+wifi_country = 'GB'
+
+# how often to wake up and take a reading (in minutes)
+reading_frequency = 5
+
+# where to upload to ("web_hook", "mqtt", "adafruitio")
+destination = ''
+
+# how often to upload data (number of cached readings)
+upload_frequency = 5
+
+# web hook settings
+custom_http_url = ''
+custom_http_username = ''
+custom_http_password = ''
+
+# mqtt broker settings
+mqtt_broker_address = ''
+mqtt_broker_username = ''
+mqtt_broker_password = ''
+
+# adafruit ui settings
+adafruit_io_username = ''
+adafruit_io_key = ''
+
+# influxdb settings
+influxdb_org = ''
+influxdb_url = ''
+influxdb_token = ''
+influxdb_bucket = ''
+
+# grow specific settings
+auto_water = False
+moisture_target_1 = 50
+moisture_target_2 = 50
+moisture_target_3 = 50
