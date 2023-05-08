@@ -9,6 +9,8 @@ Rather than using the full Enviro self-provisioning code from the standalone pro
 
 In addition, I thought I'd noodle around with using the vector-ish Hershey fonts instead of using the bitmap ones, which gave me a chance to tinker with [PicoGraphics](https://github.com/pimoroni/pimoroni-pico/tree/main/micropython/modules/picographics). I'm happy with the result!
 
+![vector fonts](screen.jpeg)
+
 - open `config.py.example` in Thonny to add your wifi details (and save it as `config.py` when you're done). You'll also need to add MQTT details in there.
 - for MQTT, you'll need to install `micropython-mqtt.simple` using Thonny's 'Tools' > 'Manage Packages' (or using `mip` - to be documented)
 - transfer `config.py`, `main.py`, `network_manager.py` and the `lib` directory to your Pico.
