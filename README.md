@@ -11,13 +11,18 @@ In addition, I thought I'd noodle around with using the vector-ish Hershey fonts
 
 ![vector fonts](screen.jpeg)
 
+I also modified the network code to enable setting the device name (new in MicroPython 1.20).
+
 - open `config.py.example` in Thonny to add your wifi details (and save it as `config.py` when you're done). You'll also need to add MQTT details in there.
 - for MQTT, you'll need to install `micropython-mqtt.simple` using Thonny's 'Tools' > 'Manage Packages' (or using `mip` - to be documented)
 - transfer `config.py`, `main.py`, `network_manager.py` and the `lib` directory to your Pico.
+- for the PMS5003 particle sensor, requires the correct driver:
+
+`mip.install("https://raw.githubusercontent.com/pimoroni/pms5003-micropython/main/package.json")`
 
 Tested / running on MicroPython 1.20[.1] 👍🏻️
 
-Now if you'll excuse me, I'm off to design 3D printed cases for Pimoroni products...
+Now if you'll excuse me, I'm off to [design 3D printed cases](https://www.printables.com/social/489486-andy-piper/) for Pimoroni products...
 
 ## License
 

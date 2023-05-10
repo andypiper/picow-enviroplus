@@ -7,10 +7,9 @@ import uasyncio
 class NetworkManager:
     _ifname = ("Client", "Access Point")
 
-    def __init__(self, hostname="picow", country="GB", client_timeout=60, access_point_timeout=5, status_handler=None, error_handler=None):
+    def __init__(self, country="GB", hostname="picow", client_timeout=60, access_point_timeout=5, status_handler=None, error_handler=None):
         rp2.country(country)
         network.hostname(hostname)
-        print(network.hostname())
         self._ap_if = network.WLAN(network.AP_IF)
         self._sta_if = network.WLAN(network.STA_IF)
 
