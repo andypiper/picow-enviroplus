@@ -4,6 +4,8 @@
 # TODO: MQTT data should be retained
 # TODO: don't keep doing MQTT connect
 # TODO: support other charts on button press
+# TODO: parameterise whether PMS is attached
+# TODO: shorten lux (reduce update flicker)
 
 import time
 from machine import Pin, ADC, UART
