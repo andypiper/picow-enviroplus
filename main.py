@@ -6,6 +6,7 @@
 # TODO: support other charts on button press
 # TODO: parameterise whether PMS is attached
 # TODO: shorten lux (reduce update flicker)
+# TODO: enable reconnect to wifi / reset? on button press
 
 import time
 from machine import Pin, ADC, UART
