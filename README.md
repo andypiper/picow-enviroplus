@@ -22,7 +22,7 @@ I also modified the network code to enable setting the device name (new in Micro
 
 Tested / running on MicroPython 1.20[.1] 👍🏻️
 
-Now if you'll excuse me, I'm off to [design 3D printed cases](https://www.printables.com/social/489486-andy-piper/) for Pimoroni products...
+Now if you'll excuse me, I'm off to [design 3D printed cases](https://www.printables.com/@AndyPiper) for Pimoroni products...
 
 ## License
 
